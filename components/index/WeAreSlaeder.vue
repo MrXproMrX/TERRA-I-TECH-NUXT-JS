@@ -1,8 +1,10 @@
 <template>
     <section>
         <VueSlickCarousel v-bind="settings" class="WeAre__item__slic">
-            <div class="WeAre__item" v-for="(WeAre,index) in WeAres" :key="index">
-                 <img :src="WeAre.img" :alt="index">
+            <div class="WeAre__item" v-for="WeAre in clients" :key="WeAre.id">
+                <a target="_blank" :href="WeAre.link">
+                    <img :src="baseURL + WeAre.logo" :alt="WeAre.updated_at + WeAre.logo">
+                </a>
             </div>
         </VueSlickCarousel>
     </section>
@@ -12,8 +14,9 @@
 <script>
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
+import { baseURL } from '@/constants/config';
 export default {
-    props:['WeAres'],
+    props:['clients'],
     components:{
         VueSlickCarousel
     },
@@ -62,6 +65,7 @@ export default {
                  },
                ]
             },
+            baseURL
         }
     }
 }

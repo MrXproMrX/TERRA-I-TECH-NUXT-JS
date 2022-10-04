@@ -811,7 +811,16 @@ header{
     &__text{
         @include fontAll(18px,400,$link);
         line-height: 183%;
-        padding: 30px 0;
+        margin: 30px 0;
+
+        max-height: 190px;
+        -webkit-line-clamp: 6;
+        position: relative;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
     }
 
     &__item__mrx{
@@ -942,16 +951,11 @@ header{
 
     &__item{
         @include fiximg(180px,90px,false);
-        opacity: 0.5;
         @extend%transition;
-
-        &:hover{
-            opacity: 1;
-        }
     }
 
     &__item__slic{
-        margin-top: 20px;
+        margin-top: 30px;
         .slick-arrow{
             font-size: 0;
             background-color:transparent;
@@ -1050,8 +1054,19 @@ header{
     }
 
     &__news__item{
-        width: 320px;
+        width: 100%;
         height: auto;
+        flex: 0 0 30%;
+
+        .Blog__news__text{
+            display: none;
+        }
+
+        a{
+            .Blog__news__text{
+                display: block;
+            }
+        }
     }
 
     &__news__otp{
@@ -1094,6 +1109,7 @@ header{
     &__news__text{
         @include fontAll(16px,400,$text);
         line-height: 175%;
+        text-align: justify;
 
         max-height: 85px;
         -webkit-line-clamp: 3;
@@ -1103,6 +1119,15 @@ header{
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
+
+        img{
+            display: none;
+        }
+
+        em{
+            font-family: 'Proxima Nova', sans-serif !important;
+            font-style: inherit !important;
+        }
     }
 
     &__title__h2{
@@ -1126,6 +1151,10 @@ header{
         align-items:center;
         justify-content: center;
         margin-top: 30px;
+    }
+
+    .Blog__news__item + .Blog__news__item + .Blog__news__item + .Blog__news__item{
+        display: none;
     }
 }
 
@@ -1382,6 +1411,10 @@ header{
         margin-right: 60px;
     }
 
+    .Blog__news__otp {
+        grid-gap: 15px;
+    }
+
     .slaeder__item__text,
     .About__top,
     .About__top__mrx{
@@ -1448,6 +1481,14 @@ header{
     margin-left: 55px;
     width: 95%;
     padding-right: 190px;
+}
+
+.Blog__news__item{
+    flex: 0 0 47%;
+}
+
+.Blog__news__otp {
+    grid-gap: 20px;
 }
 
 .Catalog__pro{
@@ -1526,6 +1567,7 @@ header{
 
 .About__text {
     font-size: 16px;
+    max-height: 170px;
 }
 
 .Services__title__h3,

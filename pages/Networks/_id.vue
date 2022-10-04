@@ -8,7 +8,7 @@
                       <ul class="aboutComp__menu">
                           <li><nuxt-link to="/" class="aboutComp__menu__link">Главная</nuxt-link></li>
                           <li><span></span></li>
-                          <li><nuxt-link to="/" class="aboutComp__menu__link">Сети передачи данных СКС</nuxt-link></li>
+                          <li><nuxt-link to="/" class="aboutComp__menu__link">{{ServiceItem.title}}</nuxt-link></li>
                       </ul>
                   </section>
                 </div>
@@ -26,18 +26,16 @@
                      <div class="SCSnetworks__pro">
 
                         <div class="SCSnetworks__img">
-                            <img :src="ServiceItem.image" alt="mrx">
+                            <img :src="baseURL + ServiceItem.icon" alt="mrx">
 
                             <div class="SCSnetworks__img__text">
-                                <img :src="ServiceItem.img" alt="mrx">
+                                <img :src="baseURL + ServiceItem.image" alt="mrx">
                                 <h4 class="SCSnetworks__title__h4">{{ServiceItem.title}}</h4>
                             </div>
                         </div>
 
                          <div class="SCSnetworks__text">
-                             <p>
-                                 {{ServiceItem.text}}
-                             </p>
+                             <p v-html="ServiceItem.content"></p>
                          </div>
 
                          <div class="SCSnetworks__button">
@@ -60,16 +58,37 @@
 </style>
 
 <script>
-import ServicesindexJs from '@/data/ServicesindexJs';
+import { baseURL } from '@/constants/config';
 export default {
-    // validate({params}){
-  //   return /^\d+$/.test(params.id)
-  // },
 
-  computed:{
-    ServiceItem(){
-      return ServicesindexJs.find(Service => Service.id === + this.$route.params.id);
+    data(){
+        return{
+            baseURL
+        }
     },
-  }
+
+    async fetch({ store }) {
+        await store.dispatch('homepage/fetchHomepage')
+        
+        if(store.getters['options/options'].length === 0){
+            await store.dispatch('options/fetchOptions')
+        }
+    },
+
+    computed:{
+
+        ServiceItem(){
+            return this.services.find(Service => Service.id === + this.$route.params.id);
+        },
+
+        options(){
+            return this.$store.getters['options/options']
+        },
+
+        services() {
+            return this.$store.getters['homepage/services']
+        },
+
+    },
 }
 </script>

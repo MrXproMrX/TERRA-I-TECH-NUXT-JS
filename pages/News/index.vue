@@ -21,15 +21,15 @@
 
          <div class="NewsPage">
              <section class="container">
-                 <div class="NewsPage__top">
-                      <BlogNews id="demo" :BlogNewsT="BlogNewsT"></BlogNews>
-                 </div>
+                <div class="NewsPage__top">
+                    <BlogNews :articles="articles.data.data"></BlogNews>
+                </div>
 
-                  <NewPagination v-model="page" :count="countProducts" :per-page="productsPerPage"></NewPagination>
-                  
+                <!-- <NewPagination v-model="page" :count="countProducts" :per-page="productsPerPage"></NewPagination> -->
              </section>
          </div>
 
+         <!-- news page end -->
 
     </section>
 </template>
@@ -41,36 +41,51 @@
 </style>
 
 <script>
-import BlogNews from '@/components/index/BlogNews.vue';
-import BlogNewsT from '@/data/BlogNewsJs';
-import NewPagination from '@/pages/News/NewPagination.vue'
-// import Paginate from 'vuejs-paginate';
-
-
+import BlogNews from '@/pages/news/BlogNews.vue';
+import NewPagination from '@/pages/news/NewPagination.vue';
+import { baseURL } from '@/constants/config';
 export default {
     components:{
         BlogNews,
         NewPagination,
-        // Paginate,
     },
+
 
     data(){
         return{
-            page:1,
-            productsPerPage:6,
+            // page:1,
+            // productsPerPage:1,
+            baseURL,
         }
     },
 
+    async fetch({ store }) {
+
+        if(store.getters['options/options'].length === 0){
+            await store.dispatch('options/fetchOptions')
+        }
+
+        if(store.getters['articles/articles'].length === 0){
+            await store.dispatch('articles/fetch')
+        }
+    },
+
+
     computed:{
-       BlogNewsT(){
-         const offset = (this.page - 1) * this.productsPerPage;
-         return BlogNewsT.slice(offset, offset + this.productsPerPage);
-      },
-       countProducts(){
-        return BlogNewsT.length;
-      }
+
+        // BlogNewsT(){
+        //     const offset = (this.page - 1) * this.productsPerPage;
+        //     return this.articles.data.data.slice(offset, offset + this.productsPerPage);
+        // },
+
+        // countProducts(){
+        //    return this.articles.data.data.length;
+        // },
+    
+        articles(){
+            return this.$store.getters['articles/articles']
+        },
+        
     }
-
 }
-
 </script> 

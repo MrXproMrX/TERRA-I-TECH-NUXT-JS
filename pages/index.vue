@@ -1,95 +1,69 @@
 <template>
   <section class="index">
-    <!-- slaeder start -->
+    
+  <!-- slaeder start -->
 
-    <div class="slaeder">
+  <div class="slaeder">
+        <template v-if="sliders.length">
           <VueSlickCarousel v-bind="slic">
-            <div class="slaeder__item">
-              <img src="@/assets/foto/slaeder.png" alt="logo" />
+            <div v-for="slider in sliders" :key="slider.id" class="slaeder__item">
+              <img :src="baseURL + slider.image" :alt="slider.title" />
 
               <section class="container">
                 <div class="slaeder__item__text">
-                  <h1 class="slaeder__title__h1">Серверное оборудование</h1>
-                  <h3 class="slaeder__title__h3">Высокого качества</h3>
+                  <h1 class="slaeder__title__h1">{{ slider.title }}</h1>
+                  <h3 class="slaeder__title__h3">{{ slider.description }}</h3>
                   <div><nuxt-link class="slaeder__link" to="/about-company">Подробнее</nuxt-link></div>
+                </div>
+              </section>
             </div>
-          </section>
-        </div>
-
-        <div class="slaeder__item">
-          <img src="@/assets/foto/slaeder1.png" alt="logo" />
-
-          <section class="container">
-            <div class="slaeder__item__text">
-              <h1 class="slaeder__title__h1">Серверное оборудование</h1>
-              <h3 class="slaeder__title__h3">Высокого качества</h3>
-              <div><nuxt-link class="slaeder__link" to="/about-company">Подробнее</nuxt-link></div>
-            </div>
-          </section>
-        </div>
-
-        <div class="slaeder__item">
-          <img src="@/assets/foto/slaeder2.png" alt="logo" />
-          
-          <section class="container">
-            <div class="slaeder__item__text">
-              <h1 class="slaeder__title__h1">Серверное оборудование</h1>
-              <h3 class="slaeder__title__h3">Высокого качества</h3>
-              <div><nuxt-link class="slaeder__link" to="/about-company">Подробнее</nuxt-link></div>
-            </div>
-          </section>
-        </div>
       </VueSlickCarousel>
-    </div>
+        </template>
+  </div>
 
-    <!-- slaeder end -->
+  <!-- slaeder end -->
 
 
-    <!-- Services start -->
+  <!-- Services start -->
 
-    <div class="Services">
+  <div class="Services">
       <section class="container">
         <div class="Services__top">
           <h2 class="Services__title__h2">Услуги</h2>
         </div>
       </section>
-      <ServicesIndex :Services="Services"></ServicesIndex>
-    </div>
+      <ServicesIndex v-if="services.length" :services="services"></ServicesIndex>
+  </div>
       
-    <!-- Services end -->
+  <!-- Services end -->
 
 
-    <!-- Catalog start -->
+  <!-- Catalog start -->
  
-    <div class="Catalog">
+  <div class="Catalog">
          <div class="Catalog__pro">
              <div class="Catalog__mrx">
                  <h2 class="Catalog__title__h2">Каталог</h2>
-                 <CatalogIndex :Catalogs="Catalogs"></CatalogIndex>
+                 <CatalogIndex :catalog="catalog"></CatalogIndex>
              </div>
 
              <h1 class="Catalog__mrx__title__h1">Продукция</h1>
          </div>
-    </div>
+  </div>
 
-    <!-- Catalog end -->
+  <!-- Catalog end -->
 
 
-    <!-- About Us  start-->
+  <!-- About Us  start-->
 
-    <div class="About">
+  <div class="About">
       <div class="About__pro">
         <section class="container">
           <div class="About__top">
             
             <div class="About__item">
-              <h2 class="About__title__h2">О нас</h2>
-                  <div class="About__text">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </p>
-                  </div>
-                        
+              <h2 class="About__title__h2">{{page.title}}</h2>
+                <div class="About__text" v-html="page.content"></div>    
                 <nuxt-link to="/about-company" class="About__link">Подробнее</nuxt-link>
             </div>
                       
@@ -128,28 +102,28 @@
               </div>
           </section>
         </div>
-    </div>
+  </div>
 
-    <!-- About Us  end-->
+  <!-- About Us  end-->
 
-    <!-- We are trusted start -->
+  <!-- We are trusted start -->
 
-    <div class="WeAre">
+  <div class="WeAre">
        <section class="container">
          <div class="WeAre__pro">
            <h2 class="Services__title__h2">Нам доверяют</h2>
 
-           <WeAreSlaeder :WeAres="WeAres"></WeAreSlaeder>
+           <WeAreSlaeder v-if="clients.length" :clients="clients"></WeAreSlaeder>
          </div>
        </section>
-     </div>
+    </div>
 
-    <!-- We are trusted end -->
+  <!-- We are trusted end -->
 
 
-    <!-- Blog start -->
+  <!-- Blog start -->
 
-    <div class="Blog">
+  <div class="Blog">
       <div class="Blog__pro">
         <div class="Blog__news">
           <h2 class="Blog__news__title">Новости</h2>
@@ -157,15 +131,17 @@
         
         <h2 class="Blog__title__h2">Блог</h2>
         
-        <BlogNews :BlogNewsT="BlogNewsT"></BlogNews>
+        <BlogNews :blog="blog"></BlogNews>
         
         <div class="Blog__button">
           <nuxt-link to="/news" class="Blog__button__link">Все новости</nuxt-link>
         </div>
       </div>
-    </div>
+  </div>
 
   <!-- Blog end -->
+
+  <!-- Write to us start -->
     
   <div class="WriteTo">
     <section class="container">
@@ -188,28 +164,26 @@
       </div>
     </section>
   </div>
-            
-  <!-- Write to us ent -->
-    
 
+  <!-- Write to us ent -->
   </section>
 </template>
+
 
 <script>
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 // ----------------------------------------------------
 import ServicesIndex from '@/components/index/ServicesIndex.vue';
-import ServicesindexJs from '@/data/ServicesindexJs';
 // ----------------------------------------------------
 import CatalogIndex from '@/components/index/CatalogIndex.vue';
-import ProductsItemMrxJs from '@/data/ProductsItemMrxJs';
 // ----------------------------------------------------
 import WeAreSlaeder from '@/components/index/WeAreSlaeder.vue';
-import WeAresIndex from '@/data/WeAresIndexJs';
 // ----------------------------------------------------
 import BlogNews from '@/components/index/BlogNews.vue';
-import BlogNewsT from '@/data/BlogNewsJs';
+// ----------------------------------------------------
+import { baseURL } from '@/constants/config';
+
 export default {
   name: 'IndexPage',
   components:{
@@ -219,8 +193,10 @@ export default {
     WeAreSlaeder,
     BlogNews,
   },
+
   data(){
     return{
+      baseURL,
       slic:{
         arrows:true,
         speed:1500,
@@ -229,25 +205,48 @@ export default {
         infinite:true,
         autoplay:true,
       },
-      Services:ServicesindexJs,
-      WeAres:WeAresIndex,
-      page:1,
-      productsPerPage:3,
-      CatalogsPage:1,
-      CatalogsPageMax:6,
     }
   },
 
+  async fetch({ store }) {
+    await store.dispatch('homepage/fetchHomepage')
+
+    if(store.getters['options/options'].length === 0){
+        await store.dispatch('options/fetchOptions')
+    }
+
+  },
+  
   computed:{
-    BlogNewsT(){
-      const offset = (this.page - 1) * this.productsPerPage;
-      return BlogNewsT.slice(offset, offset + this.productsPerPage);
+    
+    sliders() {
+      return this.$store.getters['homepage/sliders']
     },
 
-    Catalogs(){
-      const offset = (this.CatalogsPage - 1) * this.CatalogsPageMax;
-      return ProductsItemMrxJs.slice(offset, offset + this.CatalogsPageMax);
-    }
+    services() {
+      return this.$store.getters['homepage/services']
+    },
+
+    page() {
+      return this.$store.getters['homepage/page']
+    },
+
+    clients() {
+      return this.$store.getters['homepage/clients']
+    },
+
+    blog() {
+      return this.$store.getters['homepage/blog']
+    },
+
+    catalog() {
+      return this.$store.getters['homepage/catalog']
+    },
+
+    options(){
+      return this.$store.getters['options/options']
+    },
+
   }
 }
 </script>

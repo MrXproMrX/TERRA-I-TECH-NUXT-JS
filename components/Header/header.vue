@@ -23,22 +23,40 @@
                         <div>
                             <span class="header__tel__link"><i class="fas fa-phone-alt"></i></span>
                         </div>
-                        <div>
-                            <a class="header__tel__link" href="tel:+99 893 505 45 05">+99 893 505 45 05</a>
-                            <a class="header__tel__link" href="tel:+99 893 505 45 04">+99 893 505 45 04</a>
+
+                        <div v-if="options.data[0].id || options.data[1].id">
+                            <a class="header__tel__link" :href="'tel:' + options.data[0].value" :key="options.data[0].id">
+                                {{beautifyPhoneNumber(options.data[0].value)}}
+                            </a>
+                            
+                            <a class="header__tel__link" :href="'tel:' + options.data[1].value" :key="options.data[1].id">
+                                {{beautifyPhoneNumber(options.data[1].value)}}
+                            </a>
                         </div>
+
                     </div>
 
                     <div>
                         <ul class="header__menu">
-                            <li><a href="#!" class="header__menu__link"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#!" class="header__menu__link"><i class="fab fa-instagram"></i></a></li>
-                            <li><a href="#!" class="header__menu__link"><i class="fab fa-telegram-plane"></i></a></li>
+                            <li><a :href="options.data[3].value" target="_blank" class="header__menu__link" :key="options.data[3].id">
+                                <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+
+                            <li><a :href="options.data[4].value" target="_blank" class="header__menu__link" :key="options.data[4].id">
+                                <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+
+                            <li><a :href="options.data[2].value" target="_blank" class="header__menu__link" :key="options.data[2].id">
+                                <i class="fab fa-telegram-plane"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
                     <div class="header__button">
-                        <a href="#!" class="header__button__link">Прайс-лист</a>
+                        <a :href="'http://terra.sosgroup.uz:2118/' + options.data[10].value" :key="options.data[10].id"  target="_blank" class="header__button__link">Прайс-лист</a>
                     </div>
 
                 </div>
@@ -114,17 +132,35 @@
 
 <script>
     import HeaderGatalogLink from '@/components/Header/HeaderMenu.vue';
-    import ProductCategoriaJs from '@/data/ProductCategoriaJs'
+    import ProductCategoriaJs from '@/data/ProductCategoriaJs';
+    import { beautifyPhoneNumber } from '@/utils';
     export default {
         components:{
             HeaderGatalogLink,
         },
+
+        async fetch({ store }) {
+            if(store.getters['options/options'].length === 0){
+                await store.dispatch('options/fetchOptions')
+            }
+        },
+
     
         data(){
             return{
                 HeaderCatalogs:ProductCategoriaJs,
                 mrxMax:false,
                 mrxForm:false,
+            }
+        },
+
+        methods:{
+            beautifyPhoneNumber,
+        },
+
+        computed:{
+            options(){
+                return this.$store.getters['options/options']
             }
         }
     }
