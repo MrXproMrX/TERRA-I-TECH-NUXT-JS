@@ -1,3 +1,7 @@
+https://terra-i-tech-nuxt-sosgroup-uz.web.app/
+
+![image](https://user-images.githubusercontent.com/91363364/193819845-cc898898-62c2-4cf4-8f5e-297349fce925.png)
+
 # test-ida
 
 ## Build Setup
