@@ -8,7 +8,7 @@
                       <ul class="aboutComp__menu">
                           <li><nuxt-link to="/" class="aboutComp__menu__link">Главная</nuxt-link></li>
                           <li><span></span></li>
-                          <li><nuxt-link to="/products" class="aboutComp__menu__link">{{SwitchTpLinks.title}}</nuxt-link></li>
+                          <li><nuxt-link to="/catalog" class="aboutComp__menu__link">{{SwitchTpLinks.title}}</nuxt-link></li>
                       </ul>
                   </section>
                 </div>
@@ -67,6 +67,7 @@
 <script>
 
 import ProductsItemMrxJs from '@/data/ProductsItemMrxJs';
+import { baseURL } from '@/constants/config';
 // ------------------------------------------------------
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
@@ -120,7 +121,8 @@ export default {
                   }
                  },
                ]
-               },
+            },
+            baseURL
         }
     },
     mounted() {
@@ -128,9 +130,19 @@ export default {
         this.c2 = this.$refs.c2;
     },
 
-    // validate({params}){
-  //   return /^\d+$/.test(params.id)
-  // },
+    async fetch({ store }) {    
+
+        if(store.getters['options/options'].length === 0){
+            await store.dispatch('options/fetchOptions')
+        }
+    },
+
+    computed:{
+        catalog(){
+            return this.$store.getters['catalog/catalog']
+        }
+    },
+
 
     computed:{
         SwitchTpLinks(){

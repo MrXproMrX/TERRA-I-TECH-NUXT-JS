@@ -26,22 +26,30 @@
                              <ul class="Contacts__menu">
                                  <li>
                                      <h5 class="Contacts__title__h5">Телефон</h5>
-                                     <a class="Contacts__link" href="tel:+99 893 505 45 05">+99 893 505 45 05</a>
+                                     <a class="Contacts__link" :href="'tel:'+options.data[0].value" :key="options.data[0].id">
+                                        {{beautifyPhoneNumber(options.data[0].value)}}
+                                    </a>
                                  </li>
 
                                  <li>
                                      <h5 class="Contacts__title__h5">Адрес</h5>
-                                     <a class="Contacts__link">Узбекистан, г. Ташкент Ул. Садыка Азимова, 68</a>
+                                     <a class="Contacts__link" :key="options.data[5].id">
+                                        {{options.data[5].value}}
+                                    </a>
                                  </li>
 
                                  <li>
                                      <h5 class="Contacts__title__h5">Ориентир</h5>
-                                     <a class="Contacts__link">145 школа, кафе Efendi, Правительственная поликлиника</a>
+                                     <a class="Contacts__link" :key="options.data[6].id">
+                                        {{options.data[6].value}}
+                                    </a>
                                  </li>
 
                                  <li>
                                      <h5 class="Contacts__title__h5">Email</h5>
-                                     <a class="Contacts__link" href="mailto:info@terraitech.com">info@terraitech.com</a>
+                                     <a class="Contacts__link" :href="'mailto:' + options.data[7].value" :key="options.data[7].id">
+                                        {{options.data[7].value}}
+                                    </a>
                                  </li>
                              </ul>
                          </div>
@@ -83,7 +91,28 @@
 </style>
 
 <script>
+import { beautifyPhoneNumber } from '@/utils';
 export default {
-    
+
+    async fetch({ store }) {
+        if(store.getters['options/options'].length === 0){
+            await store.dispatch('options/fetchOptions')
+        }
+    },
+
+    methods:{
+        beautifyPhoneNumber,
+    },
+
+    computed:{
+
+        test(){
+            console.log(options.data)
+        },
+
+        options(){
+            return this.$store.getters['options/options']
+        }
+    }
 }
 </script>

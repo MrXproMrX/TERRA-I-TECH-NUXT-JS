@@ -20,6 +20,7 @@
         align-items:center;
         justify-content: space-between;
         @extend%transition;
+        cursor: pointer;
         &:hover{
             color:#4F95E5;
         }
@@ -92,7 +93,7 @@
     }
 
     &__advertising__img{
-        @include fiximg(300px,500px,true);
+        @include fiximg(300px,auto,true);
     }
 
     &__max{
@@ -371,7 +372,6 @@
         margin-left: 0;
     }
 }
-
 
 
 @media (max-width:650px){

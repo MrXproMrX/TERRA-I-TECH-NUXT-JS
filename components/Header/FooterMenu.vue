@@ -14,9 +14,9 @@
                             <a class="footer__item__tel" href="tel:+99 893 505 45 05"><span>Телефон</span>+99 893 505 45 05</a>
 
                             <ul class="footer__item__icons">
-                                 <li><a href="#!" class="footer__icons__link"><i class="fab fa-facebook-f"></i></a></li>
-                                 <li><a href="#!" class="footer__icons__link"><i class="fab fa-instagram"></i></a></li>
-                                 <li><a href="#!" class="footer__icons__link"><i class="fab fa-telegram-plane"></i></a></li>
+                                 <li><a :href="options.data[3].value" target="_blank" class="footer__icons__link" :key="options.data[3].id"><i class="fab fa-facebook-f"></i></a></li>
+                                 <li><a :href="options.data[4].value" target="_blank" class="footer__icons__link" :key="options.data[4].id"><i class="fab fa-instagram"></i></a></li>
+                                 <li><a :href="options.data[2].value" target="_blank" class="footer__icons__link"><i class="fab fa-telegram-plane" :key="options.data[2].id"></i></a></li>
                             </ul>
                         </div>
 
@@ -32,11 +32,9 @@
 
                             <div class="footer__max__item">
                                 <ul class="footer__mrx__menu">
-                                    <li><a href="#!" class="footer__max__link">Системы передачи данных</a></li>
-                                    <li><a href="#!" class="footer__max__link">Системы визуальной безопасности</a></li>
-                                    <li><a href="#!" class="footer__max__link">Пожаротушение и безопасность</a></li>
-                                    <li><a href="#!" class="footer__max__link">Системы контроля доступа</a></li>
-                                    <li><a href="#!" class="footer__max__link">Системы звукового оповещения</a></li>
+                                    <li v-for="catalo in catalog" :key="catalo.id">
+                                        <nuxt-link class="footer__max__link" :to="'/catalog/' + catalo.id">{{catalo.title}}</nuxt-link>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -46,11 +44,11 @@
 
                     <div class="footer__pro">
                          <div>
-                             <a class="footer__pro__link" href="#!">«Terra I-Tech» Все права защищены</a>
+                             <span class="footer__pro__link">«Terra I-Tech» Все права защищены</span>
                          </div>
 
                          <div>
-                             <a class="footer__pro__link" href="#!">© Copyright 2021 - Web developed by SOS Group</a>
+                             <span class="footer__pro__link">© Copyright 2021 - Web developed by SOS Group</span>
                          </div>
                     </div>
                 </section>
@@ -58,3 +56,26 @@
         </footer>
     </section>
 </template>
+
+<script>
+export default {
+    async fetch({ store }) {
+        await store.dispatch('homepage/fetchHomepage')
+
+        if(store.getters['options/options'].length === 0){
+            await store.dispatch('options/fetchOptions')
+        }
+    },
+  
+    computed:{
+
+        options(){
+            return this.$store.getters['options/options']
+        },
+
+        catalog() {
+            return this.$store.getters['homepage/catalog']
+        }
+    },
+}
+</script>

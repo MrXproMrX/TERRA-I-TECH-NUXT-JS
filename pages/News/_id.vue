@@ -26,15 +26,11 @@
                   <div class="NewsInside__pro">
 
                     <div class="NewsInside__img">
-                        <img :src="NewsBlog.img" alt="">
-                        <h4 class="NewsInside__title__h4">{{NewsBlog.data}}</h4>
+                        <img :src="baseURL + NewsBlog.image" alt="">
+                        <h4 class="NewsInside__title__h4">{{ formatDate(NewsBlog.updated_at) }}</h4>
                     </div>
 
-                    <div class="NewsInside__text">
-                      <p>
-                        {{NewsBlog.text}}
-                      </p>
-                    </div>
+                    <div class="NewsInside__text" v-html="NewsBlog.content"></div>
 
                   </div>
 
@@ -54,15 +50,40 @@
 </style>
 
 <script>
-import BlogNewsJs from '~/data/BlogNewsJs';
+import { formatDate } from '@/utils';
+import { baseURL } from '@/constants/config';
 export default {
-  // validate({params}){
-  //   return /^\d+$/.test(params.id)
-  // },
+
+  data(){
+    return{
+      baseURL
+    }
+  },
+  
+  async fetch({ store }) {
+
+    if(store.getters['options/options'].length === 0){
+        await store.dispatch('options/fetchOptions')
+    }
+
+    if(store.getters['articles/articles'].length === 0){
+        await store.dispatch('articles/fetch')
+    }
+  },
+
+  methods:{
+    formatDate
+  },
+
+  
 
   computed:{
     NewsBlog(){
-      return BlogNewsJs.find(BlogNews => BlogNews.id === + this.$route.params.id);
+      return this.articles.data.data.find(BlogNews => BlogNews.id === + this.$route.params.id);
+    },
+
+    articles(){
+        return this.$store.getters['articles/articles']
     },
   }
 }
